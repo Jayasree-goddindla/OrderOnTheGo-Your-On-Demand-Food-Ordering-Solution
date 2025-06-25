@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pasta Point - SB Foods</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fdf6f0;
+      color: #333;
+    }
+
+    .navbar {
+      background-color: #d2691e;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+
+    .navbar .logo {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .container {
+      padding: 30px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .restaurant-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .restaurant-header h1 {
+      color: #d2691e;
+      font-size: 32px;
+    }
+
+    .food-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .food-card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 20px;
+      text-align: center;
+    }
+
+    .food-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
+    .food-card h3 {
+      margin: 10px 0 5px;
+    }
+
+    .food-card p {
+      font-weight: bold;
+      color: #555;
+    }
+
+    .food-card button {
+      margin-top: 10px;
+      padding: 8px 16px;
+      background-color: #d2691e;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .food-card button:hover {
+      background-color: #e07b3e;
+    }
+
+    .orders {
+      margin-top: 40px;
+      background-color: #ffe7d1;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .orders h3 {
+      color: #d2691e;
+      margin-bottom: 10px;
+    }
+
+    .order-box {
+      background: white;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .change-user {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .change-user button {
+      background-color: #555;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .change-user button:hover {
+      background-color: #777;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <div class="logo">SB Foods - Pasta Point</div>
+    <a href="home.html">Home</a>
+  </div>
+
+  <div class="container">
+    <div class="restaurant-header">
+      <h1>Pasta Point</h1>
+      <p>Fresh and delicious Italian pastas and more!</p>
+    </div>
+
+    <div class="food-grid">
+      <div class="food-card">
+        <img src="https://th.bing.com/th/id/R.e16260bb069cc5438959189efbdbbc80?rik=7UWZZtD3Szoi5g&riu=http%3a%2f%2fsimshomekitchen.com%2fwp-content%2fuploads%2f2020%2f03%2feasy-creamy-tomato-pasta-recipe-004-scaled.jpg&ehk=aiZuawTVvkG%2fPqibc86lPE9ote8xZFFsPCcxi%2fcXR5c%3d&risl=&pid=ImgRaw&r=0.jpg" alt="Creamy Tomato Pasta">
+        <h3>Creamy Tomato Pasta</h3>
+        <p>₹110</p>
+        <button onclick="placeOrder('Creamy Tomato Pasta', 110)">Order</button>
+      </div>
+      <div class="food-card">
+        <img src="https://th.bing.com/th/id/OIP.66I3EGiwvGdwnzOT57M5qwHaLH?o=7rm=3&rs=1&pid=ImgDetMain&cb=idpwebpc2.jpg" alt="Aglio e Olio">
+        <h3>Aglio e Olio</h3>
+        <p>₹100</p>
+        <button onclick="placeOrder('Aglio e Olio', 100)">Order</button>
+      </div>
+      <div class="food-card">
+        <img src="https://tmbidigitalassetsazure.blob.core.windows.net/toh/GoogleImagesPostCard/Easy-Chicken-Alfredo_EXPS_FT21_264237_F_0602_1.jpg" alt="Chicken Alfredo">
+        <h3>Chicken Alfredo</h3>
+        <p>₹140</p>
+        <button onclick="placeOrder('Chicken Alfredo', 140)">Order</button>
+      </div>
+    </div>
+
+    <div class="orders">
+      <h3>Orders Placed</h3>
+      <div id="order-list"></div>
+    </div>
+
+    <div class="change-user">
+      <button onclick="changeUser()">Change User</button>
+    </div>
+  </div>
+
+  <script>
+    function getUserName() {
+      let user = localStorage.getItem("userName");
+      if (!user) {
+        user = prompt("Enter your name:") || "Guest";
+        localStorage.setItem("userName", user);
+      }
+      return user;
+    }
+
+    function placeOrder(item, price) {
+      const user = getUserName();
+      const time = new Date().toLocaleTimeString();
+
+      const order = {
+        user,
+        item,
+        price,
+        time,
+        seen: false
+      };
+
+      const orders = JSON.parse(localStorage.getItem("orders")) || [];
+      orders.push(order);
+      localStorage.setItem("orders", JSON.stringify(orders));
+
+      alert(`Thanks ${user}, your order for ${item} is placed!`);
+      showOrders();
+    }
+
+    function showOrders() {
+      const orders = JSON.parse(localStorage.getItem("orders")) || [];
+      const list = document.getElementById("order-list");
+      list.innerHTML = "";
+
+      orders.slice().reverse().forEach(order => {
+        const div = document.createElement("div");
+        div.className = "order-box";
+        div.innerHTML = `
+          <strong>User:</strong> ${order.user}<br>
+          <strong>Item:</strong> ${order.item}<br>
+          <strong>Price:</strong> ₹${order.price}<br>
+          <strong>Time:</strong> ${order.time}
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    function changeUser() {
+      localStorage.removeItem("userName");
+      location.reload();
+    }
+
+    window.onload = showOrders;
+  </script>
+
+</body>
+</html>
