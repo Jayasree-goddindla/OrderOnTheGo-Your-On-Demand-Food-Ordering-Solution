@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Menu - SB Foods</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #fff8f4;
+      color: #333;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ff6347;
+      padding: 20px;
+      color: white;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-links li a {
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links li a:hover {
+      color: #fce6e0;
+    }
+
+    .menu-header {
+      text-align: center;
+      padding: 40px 20px 10px;
+    }
+
+    .menu-header h2 {
+      font-size: 36px;
+      color: #ff6347;
+      margin-bottom: 10px;
+    }
+
+    .menu-header p {
+      font-size: 18px;
+      color: #555;
+    }
+
+    .menu-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 40px;
+    }
+
+    .menu-card {
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .menu-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .menu-card-body {
+      padding: 15px;
+    }
+
+    .menu-card h3 {
+      margin: 10px 0;
+      color: #ff6347;
+    }
+
+    .menu-card p {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .menu-card .price {
+      margin-top: 10px;
+      font-weight: bold;
+      color: #222;
+    }
+
+    .menu-card button {
+      margin-top: 10px;
+      background-color: #ff6347;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .menu-card button:hover {
+      background-color: #e5533d;
+    }
+
+    @media (max-width: 600px) {
+      .menu-header h2 {
+        font-size: 28px;
+      }
+
+      .menu-header p {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">SB Foods</div>
+    <ul class="nav-links">
+      <li><a href="/home">Home</a></li>
+      <li><a href="/products">Menu</a></li>
+      <li><a href="/cart">Cart</a></li>
+      <li><a href="/about">About</a></li>
+    </ul>
+  </nav>
+
+  <div class="menu-header">
+    <h2>Our Popular Dishes</h2>
+    <p>Fresh, delicious meals made with love — pick your favorite</p>
+  </div>
+
+  <div class="menu-container">
+    <div class="menu-card">
+      <img src="https://source.unsplash.com/400x300/?pizza" alt="Pizza">
+      <div class="menu-card-body">
+        <h3>Margherita Pizza</h3>
+        <p>Classic cheese pizza with tomato base and herbs.</p>
+        <div class="price">₹249</div>
+        <button>Add to Cart</button>
+      </div>
+    </div>
+    <div class="menu-card">
+      <img src="https://source.unsplash.com/400x300/?burger" alt="Burger">
+      <div class="menu-card-body">
+        <h3>Cheese Burger</h3>
+        <p>Grilled beef patty with melted cheese & veggies.</p>
+        <div class="price">₹199</div>
+        <button>Add to Cart</button>
+      </div>
+    </div>
+    <div class="menu-card">
+      <img src="https://source.unsplash.com/400x300/?biryani" alt="Biryani">
+      <div class="menu-card-body">
+        <h3>Chicken Biryani</h3>
+        <p>Rich and spicy biryani served with raita.</p>
+        <div class="price">₹299</div>
+        <button>Add to Cart</button>
+      </div>
+    </div>
+    <div class="menu-card">
+      <img src="https://source.unsplash.com/400x300/?noodles" alt="Noodles">
+      <div class="menu-card-body">
+        <h3>Schezwan Noodles</h3>
+        <p>Spicy Indo-Chinese noodles full of flavor.</p>
+        <div class="price">₹179</div>
+        <button>Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

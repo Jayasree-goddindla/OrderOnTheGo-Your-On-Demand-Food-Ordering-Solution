@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>SB Foods - User Interface</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff0f5;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 10px 5px;
+      font-size: 16px;
+      background-color: #ff4500;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #e03e00;
+    }
+
+    .orders {
+      text-align: left;
+      margin-top: 30px;
+    }
+
+    .order {
+      background-color: #fdfdfd;
+      border-left: 5px solid #ff4500;
+      margin-bottom: 15px;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 5px #ccc;
+    }
+
+    .order small {
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to SB Foods</h1>
+    <p>Order your favorite food easily!</p>
+
+    <button onclick="placeOrder()">Order Burger 🍔</button>
+    <button onclick="fetchOrders()">View My Orders</button>
+
+    <div class="orders" id="ordersList">
+      <h3>My Orders</h3>
+      <!-- Orders will appear here -->
+    </div>
+  </div>
+
+  <script>
+    const username = "User1"; // Simulated user login
+
+    // Place an order
+    function placeOrder() {
+      const orderData = {
+        username: username,
+        items: [{ name: "Burger", quantity: 2 }],
+        total: 200
+      };
+
+      fetch("http://localhost:3000/api/order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderData)
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert("Order placed successfully!");
+        fetchOrders();
+      })
+      .catch(err => {
+        alert("Failed to place order.");
+        console.error(err);
+      });
+    }
+
+    // Fetch orders for the user
+    function fetchOrders() {
+      fetch(`http://localhost:3000/api/orders/${username}`)
+        .then(res => res.json())
+        .then(orders => {
+          const list = document.getElementById("ordersList");
+          const container = document.createElement("div");
+          container.innerHTML = "<h3>My Orders</h3>";
+          if (orders.length === 0) {
+            container.innerHTML += "<p>No orders yet.</p>";
+          } else {
+            orders.reverse().forEach(order => {
+              const div = document.createElement("div");
+              div.className = "order";
+              div.innerHTML = `
+                <strong>₹${order.total}</strong> - ${order.items.length} item(s)<br>
+                <small>${new Date(order.timestamp).toLocaleString()}</small>
+              `;
+              container.appendChild(div);
+            });
+          }
+          list.innerHTML = "";
+          list.appendChild(container);
+        })
+        .catch(err => {
+          alert("Failed to load orders.");
+          console.error(err);
+        });
+    }
+  </script>
+</body>
+</html>

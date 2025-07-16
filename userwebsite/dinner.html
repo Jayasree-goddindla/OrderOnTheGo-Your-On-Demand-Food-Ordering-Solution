@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SB Foods - Dinner</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fff8f4;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    .navbar {
+      background-color: #ff6347;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+
+    .navbar .logo {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .food-section {
+      padding: 30px;
+      text-align: center;
+    }
+
+    .food-section h2 {
+      color: #ff6347;
+      margin-bottom: 20px;
+    }
+
+    .food-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      justify-items: center;
+      padding: 0 20px;
+    }
+
+    .food-card {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 220px;
+    }
+
+    .food-card img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .food-card h3 {
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
+
+    .food-card p {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .food-card button {
+      background-color: #ff6347;
+      border: none;
+      padding: 8px 14px;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .food-card button:hover {
+      background-color: #ff8269;
+    }
+
+    .orders {
+      max-width: 600px;
+      margin: 30px auto;
+      background: #fff0e8;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .orders h3 {
+      color: #ff6347;
+      margin-bottom: 10px;
+    }
+
+    .order-box {
+      background: #fff;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <div class="navbar">
+    <div class="logo">SB Foods - Dinner</div>
+    <div><a href="home.html" style="color:white; text-decoration:none;">Home</a></div>
+  </div>
+
+  <!-- Dinner Section -->
+  <div class="food-section">
+    <h2>Dinner Menu</h2>
+    <div class="food-grid">
+      <div class="food-card">
+        <img src="https://th.bing.com/th/id/OIP._yKdOzaVBfLEpgLtpbtGJwHaJ4?o=7rm=3&rs=1&pid=ImgDetMain&cb=idpwebpc2.jpg" alt="Chapati & Curry">
+        <h3>Chapati & Curry</h3>
+        <p>₹60</p>
+        <button onclick="placeOrder('Chapati & Curry', 60)">Order</button>
+      </div>
+      <div class="food-card">
+        <img src="https://www.cubesnjuliennes.com/wp-content/uploads/2020/07/Chicken-Biryani-Recipe.jpg" alt="Chicken Biryani">
+        <h3>Chicken Biryani</h3>
+        <p>₹120</p>
+        <button onclick="placeOrder('Chicken Biryani', 120)">Order</button>
+      </div>
+      <div class="food-card">
+        <img src="https://ministryofcurry.com/wp-content/uploads/2017/11/IMG_4407.jpg" alt="Kadhi Khichdi">
+        <h3>Kadhi Khichdi</h3>
+        <p>₹50</p>
+        <button onclick="placeOrder('Kadhi Khichdi', 50)">Order</button>
+      </div>
+      <div class="food-card">
+        <img src="https://th.bing.com/th/id/OIP.TNGDdn4pC-OK6vQY1oynCQHaE8?o=7rm=3&rs=1&pid=ImgDetMain&cb=idpwebpc2.jpg" alt="Stuffed Paratha">
+        <h3>Stuffed Paratha</h3>
+        <p>₹55</p>
+        <button onclick="placeOrder('Stuffed Paratha', 55)">Order</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Display Orders -->
+  <div class="orders">
+    <h3>Orders Placed</h3>
+    <div id="order-list"></div>
+  </div>
+
+  <script>
+    function placeOrder(item, price) {
+      const user = prompt("Enter your name:") || "Guest";
+      const time = new Date().toLocaleTimeString();
+
+      const order = {
+        user,
+        item,
+        price,
+        time,
+        seen: false
+      };
+
+      const orders = JSON.parse(localStorage.getItem("orders")) || [];
+      orders.push(order);
+      localStorage.setItem("orders", JSON.stringify(orders));
+
+      alert(`Thanks ${user}, your order for ${item} is placed!`);
+      showOrders();
+    }
+
+    function showOrders() {
+      const orders = JSON.parse(localStorage.getItem("orders")) || [];
+      const list = document.getElementById("order-list");
+      list.innerHTML = "";
+
+      orders.slice().reverse().forEach(order => {
+        const div = document.createElement("div");
+        div.className = "order-box";
+        div.innerHTML = `
+          <strong>User:</strong> ${order.user}<br>
+          <strong>Item:</strong> ${order.item}<br>
+          <strong>Price:</strong> ₹${order.price}<br>
+          <strong>Time:</strong> ${order.time}
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    window.onload = showOrders;
+  </script>
+
+</body>
+</html>
